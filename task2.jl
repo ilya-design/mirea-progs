@@ -1,41 +1,39 @@
-function mark_frame_perimetr!(r::Robot)
-    num_vert = moves!(r, Sud)
-    num_hor = moves!(r, West)
-    #УТВ: Робот - в Юго-Западном углу
+function perimetr!(r::Robot) 
 
-    for sidе in (Nord, Ost, Sud, West)
-        putmarkers!(r, side)
+to_West = to_side!(r,West) 
+to_Sud = to_side!(r,Sud) 
+    
+    for side in (Nord,Ost,Sud,West)
+        putmarkers!(r,side)
     end
-    #УТВ: По всему периметру стоят маркеры
-
-    moves!(r, Nord, num_vert)
-    moves!(r, Ost, num_hor)
-    #УТВ: Робот - в исходном положении
+    
+to_side!(r,Nord,to_Sud)
+to_side!(r,Ost,to_West) 
+    
 end
-
-#функция,при которой робот считает кол-во шагов до стенки
-function moves!(r::Robot, side::HorizonSide)
+#Робот ставит маркеры по периметру
+       
+function to_side!(r::Robot,side::HorizonSide) 
     num_steps=0
-    while isborder(r,side)==false
+    while isborder(r,side) == false
         move!(r,side)
         num_steps+=1
     end
-    return num_steps
+    return num_steps 
 end
+#на выходе получаем кол-во шагов по прямой до границы
 
-#функция,при которой робот идет до исходной точки
-function moves!(r::Robot,side::HorizonSide,num_steps::Int)
-    for _ in 1:num_steps 
+function to_side!(r::Robot,side::HorizonSide,num_steps::Int) 
+    for _ in (1:num_steps)
         move!(r,side)
     end
 end
+#используем кол-во шагов,чтобы вернуться в исходную точку
 
-
-#если в стороне(которая подаётся как агрумент для функции)нет границы-идти до неё и параллельно проставлять маркеры
-function putmarkers!(r::Robot, side::HorizonSide)
+function putmarkers!(r::Robot, side::HorizonSide) 
     while isborder(r,side)==false
         move!(r,side)
         putmarker!(r)
     end
 end
-#Функции moves! называются одинаково,но кол-во аргументов,которое они получают на вход-разное,поэтому julia разберётся
+#ставим маркеры по линии до границы(в начале маркера нет)
