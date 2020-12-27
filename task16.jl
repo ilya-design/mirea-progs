@@ -18,7 +18,7 @@ function area_but_harder(r::Robot)
 
     side=Ost
     putmarkers!(r,side)
-    to_sup_side(r,Sud) #самая нижняя линия замаркерована и робот в ЮЗ углу 
+    to_sup_side(r,West) #самая нижняя линия замаркерована и робот в ЮЗ углу 
     while isborder(r,Nord)==false #пока робот не поднялся полностью ставит маркеры и проверяет типы перегородок(внутренние,внешние)
         putmarker!(r)
         move!(r,Nord)
